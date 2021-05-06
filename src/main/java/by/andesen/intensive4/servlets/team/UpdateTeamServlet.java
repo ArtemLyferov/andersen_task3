@@ -1,7 +1,7 @@
 package by.andesen.intensive4.servlets.team;
 
 import by.andesen.intensive4.entities.Team;
-import by.andesen.intensive4.jdbc.connector.ConnectionPool;
+import by.andesen.intensive4.jdbc.connector.ConnectorDB;
 import by.andesen.intensive4.jdbc.dao.TeamDAO;
 
 import javax.servlet.*;
@@ -17,12 +17,8 @@ public class UpdateTeamServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        ConnectionPool connectionPool = null;
         try {
-            connectionPool = ConnectionPool.create(
-                    "jdbc:postgresql://localhost:5432/employee_control_system_db",
-                    "postgres", "postgres");
-            teamDAO = new TeamDAO(connectionPool.getConnection());
+            teamDAO = new TeamDAO(ConnectorDB.getConnection());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -36,10 +32,13 @@ public class UpdateTeamServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        Team team = teamDAO.findEntityById(id);
-        team.setTeamName(request.getParameter("teamName"));
-        teamDAO.update(team);
+        String newTeamName = request.getParameter("teamName");
+        if (newTeamName != null && !newTeamName.isEmpty()) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            Team team = teamDAO.findEntityById(id);
+            team.setTeamName(newTeamName);
+            teamDAO.update(team);
+        }
         response.sendRedirect(request.getContextPath() + "/teams");
     }
 }

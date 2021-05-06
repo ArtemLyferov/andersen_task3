@@ -1,7 +1,7 @@
-package by.andesen.intensive4.servlets.team;
+package by.andesen.intensive4.servlets.employee;
 
 import by.andesen.intensive4.jdbc.connector.ConnectorDB;
-import by.andesen.intensive4.jdbc.dao.TeamDAO;
+import by.andesen.intensive4.jdbc.dao.EmployeeDAO;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -9,15 +9,15 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(name = "DeleteTeamServlet", value = "/teams/delete")
-public class DeleteTeamServlet extends HttpServlet {
+@WebServlet(name = "DeleteEmployeeServlet", value = "/employees/delete")
+public class DeleteEmployeeServlet extends HttpServlet {
 
-    private TeamDAO teamDAO;
+    private EmployeeDAO employeeDAO;
 
     @Override
     public void init() throws ServletException {
         try {
-            teamDAO = new TeamDAO(ConnectorDB.getConnection());
+            employeeDAO = new EmployeeDAO(ConnectorDB.getConnection());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -26,7 +26,7 @@ public class DeleteTeamServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        teamDAO.delete(id);
-        response.sendRedirect(request.getContextPath() + "/teams");
+        employeeDAO.delete(id);
+        response.sendRedirect(request.getContextPath() + "/employees");
     }
 }

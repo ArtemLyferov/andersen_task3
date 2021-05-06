@@ -62,11 +62,6 @@ public class ConnectionPool {
     }
 
     private static Connection createConnection(String url, String user, String password) throws SQLException {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
         return DriverManager.getConnection(url, user, password);
     }
 

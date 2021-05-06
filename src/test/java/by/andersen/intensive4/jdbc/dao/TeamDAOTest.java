@@ -1,8 +1,7 @@
 package by.andersen.intensive4.jdbc.dao;
 
-
 import by.andesen.intensive4.entities.Team;
-import by.andesen.intensive4.jdbc.connector.ConnectionPool;
+import by.andesen.intensive4.jdbc.connector.ConnectorDB;
 import by.andesen.intensive4.jdbc.dao.TeamDAO;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -20,10 +19,7 @@ public class TeamDAOTest {
 
     @BeforeClass
     public static void initDAO() throws SQLException {
-        ConnectionPool connectionPool = ConnectionPool.create(
-                "jdbc:postgresql://localhost:5432/employee_control_system_db",
-                "postgres", "postgres");
-        teamDAO = new TeamDAO(connectionPool.getConnection());
+        teamDAO = new TeamDAO(ConnectorDB.getConnection());
         Team team = new Team("Test team 1");
         teamDAO.create(team);
         List<Team> teams = teamDAO.findAll();

@@ -9,7 +9,7 @@
 <h2>Изменить:</h2>
 <form method="post" action="/teams/edit">
     <label>Новое название: <input type="text" name="teamName"></label><br>
-    <input type="number" hidden name="id" value="${requestScope.team.id}" />
+    <input type="number" hidden name="id" value="${requestScope.team.id}"/>
     <input type="submit" value="Сохранить">
 </form>
 </body>

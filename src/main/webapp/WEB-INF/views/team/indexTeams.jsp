@@ -13,7 +13,7 @@
 </c:forEach>
 <hr/>
 <form action="/teams/new">
-    <button>Создать команду</button>
+    <button>Добавить команду</button>
 </form>
 <form action="/">
     <button>Назад</button>

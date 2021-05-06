@@ -7,6 +7,9 @@
 <h2>Система контроля работников</h2>
 <ul>
     <li><a href="/teams">Список команд</a></li>
+    <li><a href="/employees">Список сотрудников</a></li>
+    <li><a href="/teams">Список проектов</a></li>
+    <li><a href="/teams">Список фидбеков</a></li>
 </ul>
 </body>
 </html>

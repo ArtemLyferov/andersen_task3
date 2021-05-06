@@ -8,11 +8,11 @@
 <h2>Команда:</h2>
 <p>${requestScope.team.teamName}</p>
 <form method="post" action="/teams/delete">
-    <input type="number" hidden name="id" value="${requestScope.team.id}" />
+    <input type="number" hidden name="id" value="${requestScope.team.id}"/>
     <input type="submit" value="Удалить"/>
 </form>
 <form action="/teams/edit">
-    <input type="number" hidden name="id" value="${requestScope.team.id}" />
+    <input type="number" hidden name="id" value="${requestScope.team.id}"/>
     <input type="submit" value="Редактировать"/>
 </form>
 </body>

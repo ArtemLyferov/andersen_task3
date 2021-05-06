@@ -1,6 +1,6 @@
 package by.andesen.intensive4.servlets.team;
 
-import by.andesen.intensive4.jdbc.connector.ConnectionPool;
+import by.andesen.intensive4.jdbc.connector.ConnectorDB;
 import by.andesen.intensive4.jdbc.dao.TeamDAO;
 
 import javax.servlet.*;
@@ -16,12 +16,8 @@ public class GetAllTeamsServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        ConnectionPool connectionPool = null;
         try {
-            connectionPool = ConnectionPool.create(
-                    "jdbc:postgresql://localhost:5432/employee_control_system_db",
-                    "postgres", "postgres");
-            teamDAO = new TeamDAO(connectionPool.getConnection());
+            teamDAO = new TeamDAO(ConnectorDB.getConnection());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
