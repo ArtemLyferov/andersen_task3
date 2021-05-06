@@ -1,5 +1,6 @@
 package by.andesen.intensive4.servlets.team;
 
+import by.andesen.intensive4.entities.Team;
 import by.andesen.intensive4.jdbc.connector.ConnectionPool;
 import by.andesen.intensive4.jdbc.dao.TeamDAO;
 
@@ -9,8 +10,8 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(name = "GetAllTeamsServlet", value = "/teams")
-public class GetAllTeamsServlet extends HttpServlet {
+@WebServlet(name = "AddTeamServlet", value = "/teams/new")
+public class AddTeamServlet extends HttpServlet {
 
     private TeamDAO teamDAO;
 
@@ -29,7 +30,13 @@ public class GetAllTeamsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("teams", teamDAO.findAll());
-        request.getRequestDispatcher("/WEB-INF/views/team/indexTeams.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/team/newTeam.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Team team = new Team(request.getParameter("teamName"));
+        teamDAO.create(team);
+        response.sendRedirect(request.getContextPath() + "/teams");
     }
 }

@@ -9,8 +9,8 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(name = "GetAllTeamsServlet", value = "/teams")
-public class GetAllTeamsServlet extends HttpServlet {
+@WebServlet(name = "DeleteTeamServlet", value = "/teams/delete")
+public class DeleteTeamServlet extends HttpServlet {
 
     private TeamDAO teamDAO;
 
@@ -28,8 +28,9 @@ public class GetAllTeamsServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("teams", teamDAO.findAll());
-        request.getRequestDispatcher("/WEB-INF/views/team/indexTeams.jsp").forward(request, response);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        teamDAO.delete(id);
+        response.sendRedirect(request.getContextPath() + "/teams");
     }
 }

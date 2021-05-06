@@ -9,8 +9,8 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(name = "GetAllTeamsServlet", value = "/teams")
-public class GetAllTeamsServlet extends HttpServlet {
+@WebServlet(name = "GetTeamServlet", value = "/teams/show")
+public class GetTeamServlet extends HttpServlet {
 
     private TeamDAO teamDAO;
 
@@ -29,7 +29,7 @@ public class GetAllTeamsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("teams", teamDAO.findAll());
-        request.getRequestDispatcher("/WEB-INF/views/team/indexTeams.jsp").forward(request, response);
+        request.setAttribute("team", teamDAO.findEntityById(Integer.parseInt(request.getParameter("id"))));
+        request.getRequestDispatcher("/WEB-INF/views/team/showTeam.jsp").forward(request, response);
     }
 }
