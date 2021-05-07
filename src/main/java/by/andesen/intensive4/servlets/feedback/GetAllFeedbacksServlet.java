@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet(name = "GetAllFeedbackServlet", value = "/feedbacks")
-public class GetAllFeedbackServlet extends HttpServlet {
+public class GetAllFeedbacksServlet extends HttpServlet {
 
     private FeedbackDAO feedbackDAO;
 

@@ -1,7 +1,6 @@
 package by.andesen.intensive4.jdbc.dao;
 
 
-
 import by.andesen.intensive4.entities.Employee;
 import by.andesen.intensive4.entities.Project;
 import by.andesen.intensive4.entities.Team;
@@ -20,8 +19,7 @@ public class ProjectDAO extends AbstractDAO<Project> {
             "e.phone_number, e.employment_date, e.experience, e.developer_level, e.english_level, e.team_id, " +
             "t.team_name, p.team_id, t.team_name FROM projects AS p " +
             "JOIN employees AS e ON p.project_manager_id = e.id " +
-            "JOIN teams AS t ON e.team_id = t.id " +
-            "JOIN teams ON p.team_id = t.id";
+            "JOIN teams AS t ON p.team_id = t.id";
     public static final String SQL_SELECT_PROJECT_BY_ID = SQL_SELECT_ALL_PROJECTS + " WHERE p.id = ?";
     public static final String SQL_UPDATE_PROJECT = "UPDATE projects SET name_project = ?, customer = ?, duration = ?, " +
             "methodology = ?, project_manager_id = ?, team_id = ? WHERE id = ?";

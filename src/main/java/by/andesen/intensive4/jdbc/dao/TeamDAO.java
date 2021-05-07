@@ -1,7 +1,6 @@
 package by.andesen.intensive4.jdbc.dao;
 
 
-
 import by.andesen.intensive4.entities.Team;
 
 import java.sql.*;
@@ -46,8 +45,7 @@ public class TeamDAO extends AbstractDAO<Team> {
             ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_TEAMS);
             teams = new ArrayList<>();
             while (resultSet.next()) {
-                Team team = initTeam(resultSet, new Team(), "id");
-                teams.add(team);
+                teams.add(initTeam(resultSet, new Team(), "id"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
