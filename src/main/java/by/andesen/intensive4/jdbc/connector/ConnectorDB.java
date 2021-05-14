@@ -5,7 +5,10 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ConnectorDB {
-    public static Connection getConnection() throws SQLException {
+    private static ConnectorDB connectorDB;
+    private ConnectionPool connectionPool;
+
+    private ConnectorDB() throws SQLException {
         ResourceBundle resourceBundle = ResourceBundle.getBundle("database");
         String driver = resourceBundle.getString("db.driver");
         String url = resourceBundle.getString("db.url");
@@ -16,7 +19,17 @@ public class ConnectorDB {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        ConnectionPool connectionPool = ConnectionPool.create(url, user, password);
+        connectionPool = ConnectionPool.create(url, user, password);
+    }
+
+    public static ConnectorDB getInstance() throws SQLException {
+        if (connectorDB == null) {
+            connectorDB = new ConnectorDB();
+        }
+        return connectorDB;
+    }
+
+    public Connection getConnection() throws SQLException {
         return connectionPool.getConnection();
     }
 }

@@ -19,7 +19,8 @@ public class TeamDAOTest {
 
     @BeforeClass
     public static void initDAO() throws SQLException {
-        teamDAO = new TeamDAO(ConnectorDB.getConnection());
+        ConnectorDB connectorDB = ConnectorDB.getInstance();
+        teamDAO = new TeamDAO(connectorDB.getConnection());
         Team team = new Team("Test team 1");
         teamDAO.create(team);
         List<Team> teams = teamDAO.findAll();

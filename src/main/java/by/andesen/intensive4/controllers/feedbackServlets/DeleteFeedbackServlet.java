@@ -19,7 +19,8 @@ public class DeleteFeedbackServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         try {
-            feedbackService = new EntityService<>(new FeedbackDAO(ConnectorDB.getConnection()));
+            ConnectorDB connectorDB = ConnectorDB.getInstance();
+            feedbackService = new EntityService<>(new FeedbackDAO(connectorDB.getConnection()));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

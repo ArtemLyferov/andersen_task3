@@ -23,8 +23,9 @@ public class AddFeedbackServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         try {
-            feedbackService = new EntityService<>(new FeedbackDAO(ConnectorDB.getConnection()));
-            employeeService = new EntityService<>(new EmployeeDAO(ConnectorDB.getConnection()));
+            ConnectorDB connectorDB = ConnectorDB.getInstance();
+            feedbackService = new EntityService<>(new FeedbackDAO(connectorDB.getConnection()));
+            employeeService = new EntityService<>(new EmployeeDAO(connectorDB.getConnection()));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

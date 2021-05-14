@@ -25,9 +25,10 @@ public class AddProjectServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         try {
-            projectService = new EntityService<>(new ProjectDAO(ConnectorDB.getConnection()));
-            employeeService = new EntityService<>(new EmployeeDAO(ConnectorDB.getConnection()));
-            teamService = new EntityService<>(new TeamDAO(ConnectorDB.getConnection()));
+            ConnectorDB connectorDB = ConnectorDB.getInstance();
+            projectService = new EntityService<>(new ProjectDAO(connectorDB.getConnection()));
+            employeeService = new EntityService<>(new EmployeeDAO(connectorDB.getConnection()));
+            teamService = new EntityService<>(new TeamDAO(connectorDB.getConnection()));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

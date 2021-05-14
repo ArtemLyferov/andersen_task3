@@ -30,9 +30,10 @@ public class ProjectDAOTest {
 
     @BeforeClass
     public static void initDAO() throws SQLException {
-        teamDAO = new TeamDAO(ConnectorDB.getConnection());
-        employeeDAO = new EmployeeDAO(ConnectorDB.getConnection());
-        projectDAO = new ProjectDAO(ConnectorDB.getConnection());
+        ConnectorDB connectorDB = ConnectorDB.getInstance();
+        teamDAO = new TeamDAO(connectorDB.getConnection());
+        employeeDAO = new EmployeeDAO(connectorDB.getConnection());
+        projectDAO = new ProjectDAO(connectorDB.getConnection());
 
         Team team = new Team("Test team");
         teamDAO.create(team);

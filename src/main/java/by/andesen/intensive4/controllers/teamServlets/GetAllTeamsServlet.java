@@ -19,7 +19,8 @@ public class GetAllTeamsServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         try {
-            teamService = new EntityService<>(new TeamDAO(ConnectorDB.getConnection()));
+            ConnectorDB connectorDB = ConnectorDB.getInstance();
+            teamService = new EntityService<>(new TeamDAO(connectorDB.getConnection()));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

@@ -23,8 +23,9 @@ public class UpdateEmployeeServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         try {
-            employeeService = new EntityService<>(new EmployeeDAO(ConnectorDB.getConnection()));
-            teamService = new EntityService<>(new TeamDAO(ConnectorDB.getConnection()));
+            ConnectorDB connectorDB = ConnectorDB.getInstance();
+            employeeService = new EntityService<>(new EmployeeDAO(connectorDB.getConnection()));
+            teamService = new EntityService<>(new TeamDAO(connectorDB.getConnection()));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

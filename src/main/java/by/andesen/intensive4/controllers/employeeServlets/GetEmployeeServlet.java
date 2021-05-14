@@ -19,7 +19,8 @@ public class GetEmployeeServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         try {
-            employeeService = new EntityService<>(new EmployeeDAO(ConnectorDB.getConnection()));
+            ConnectorDB connectorDB = ConnectorDB.getInstance();
+            employeeService = new EntityService<>(new EmployeeDAO(connectorDB.getConnection()));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
