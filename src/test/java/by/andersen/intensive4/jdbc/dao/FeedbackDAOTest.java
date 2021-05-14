@@ -1,12 +1,9 @@
 package by.andersen.intensive4.jdbc.dao;
 
-import by.andesen.intensive4.entities.Employee;
-import by.andesen.intensive4.entities.Feedback;
-import by.andesen.intensive4.entities.Team;
-import by.andesen.intensive4.jdbc.connector.ConnectorDB;
-import by.andesen.intensive4.jdbc.dao.EmployeeDAO;
-import by.andesen.intensive4.jdbc.dao.FeedbackDAO;
-import by.andesen.intensive4.jdbc.dao.TeamDAO;
+import by.andersen.intensive4.entities.Employee;
+import by.andersen.intensive4.entities.Feedback;
+import by.andersen.intensive4.entities.Team;
+import by.andersen.intensive4.jdbc.connector.ConnectorDB;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;

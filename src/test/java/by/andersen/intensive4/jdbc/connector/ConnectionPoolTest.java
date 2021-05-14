@@ -2,7 +2,6 @@ package by.andersen.intensive4.jdbc.connector;
 
 import static org.junit.Assert.assertTrue;
 
-import by.andesen.intensive4.jdbc.connector.ConnectionPool;
 import org.junit.Test;
 
 public class ConnectionPoolTest {
