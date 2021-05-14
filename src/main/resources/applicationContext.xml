@@ -7,21 +7,51 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:property-placeholder location="classpath:database.properties"/>;
+    <context:property-placeholder location="classpath:database.properties"/>
 
-    <bean id="connectionPool"
-          class="by.andesen.intensive4.jdbc.connector.ConnectionPool"
-          factory-method="create">
-        <constructor-arg index="0" type="java.lang.String" value="${db.driver}"/>
-        <constructor-arg index="1" type="java.lang.String" value="${db.url}"/>
-        <constructor-arg index="2" type="java.lang.String" value="${db.user}"/>
-        <constructor-arg index="3" type="java.lang.String" value="${db.password}"/>
+    <bean id="connectorDB"
+          class="by.andersen.intensive4.jdbc.connector.ConnectorDB"
+          factory-method="getInstance">
     </bean>
 
+    <bean id="teamDAO"
+          class="by.andersen.intensive4.jdbc.dao.TeamDAO">
+        <constructor-arg ref="connectorDB"/>
+    </bean>
 
-<!--    <bean id="testBean"-->
-<!--          class="alishev.spring.demo.TestBean">-->
-<!--        <constructor-arg value="Neil"/>-->
-<!--    </bean>-->
+    <bean id="employeeDAO"
+          class="by.andersen.intensive4.jdbc.dao.EmployeeDAO">
+        <constructor-arg ref="connectorDB"/>
+    </bean>
+
+    <bean id="feedbackDAO"
+          class="by.andersen.intensive4.jdbc.dao.FeedbackDAO">
+        <constructor-arg ref="connectorDB"/>
+    </bean>
+
+    <bean id="projectDAO"
+          class="by.andersen.intensive4.jdbc.dao.ProjectDAO">
+        <constructor-arg ref="connectorDB"/>
+    </bean>
+
+    <bean id="teamService"
+          class="by.andersen.intensive4.service.EntityService">
+        <constructor-arg ref="teamDAO"/>
+    </bean>
+
+    <bean id="employeeService"
+          class="by.andersen.intensive4.service.EntityService">
+        <constructor-arg ref="employeeDAO"/>
+    </bean>
+
+    <bean id="feedbackService"
+          class="by.andersen.intensive4.service.EntityService">
+        <constructor-arg ref="feedbackDAO"/>
+    </bean>
+
+    <bean id="projectService"
+          class="by.andersen.intensive4.service.EntityService">
+        <constructor-arg ref="projectDAO"/>
+    </bean>
 
 </beans>

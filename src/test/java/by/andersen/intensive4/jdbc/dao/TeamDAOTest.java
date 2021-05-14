@@ -1,8 +1,7 @@
 package by.andersen.intensive4.jdbc.dao;
 
-import by.andesen.intensive4.entities.Team;
-import by.andesen.intensive4.jdbc.connector.ConnectorDB;
-import by.andesen.intensive4.jdbc.dao.TeamDAO;
+import by.andersen.intensive4.entities.Team;
+import by.andersen.intensive4.jdbc.connector.ConnectorDB;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -19,7 +18,8 @@ public class TeamDAOTest {
 
     @BeforeClass
     public static void initDAO() throws SQLException {
-        teamDAO = new TeamDAO(ConnectorDB.getConnection());
+        ConnectorDB connectorDB = ConnectorDB.getInstance();
+        teamDAO = new TeamDAO(connectorDB);
         Team team = new Team("Test team 1");
         teamDAO.create(team);
         List<Team> teams = teamDAO.findAll();
