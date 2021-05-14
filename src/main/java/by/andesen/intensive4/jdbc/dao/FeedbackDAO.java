@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeedbackDAO extends AbstractDAO<Feedback> {
+public class FeedbackDAO extends EntityDAO<Feedback> {
 
     public static final String SQL_INSERT_FEEDBACK = "INSERT INTO feedbacks (description, feedback_date, employee_id) " +
             "VALUES (?, ?, ?)";
@@ -37,7 +37,7 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
     public int create(Feedback feedback) {
         int result = 0;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT_FEEDBACK);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SQL_INSERT_FEEDBACK);
             result = setFeedbackToPreparedStatement(preparedStatement, feedback).executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -57,7 +57,7 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
     public List<Feedback> findAll() {
         List<Feedback> feedbacks = null;
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_FEEDBACKS);
             feedbacks = new ArrayList<>();
             while (resultSet.next()) {
@@ -70,14 +70,14 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
     }
 
     @Override
-    public Feedback findEntityById(int id) {
+    public Feedback findById(int id) {
         Feedback feedback = null;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_FEEDBACK_BY_ID);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SQL_SELECT_FEEDBACK_BY_ID);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                feedback = initFeedback(resultSet, new Feedback(),"id");
+                feedback = initFeedback(resultSet, new Feedback(), "id");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -89,7 +89,7 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
     public int update(Feedback feedback) {
         int result = 0;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_FEEDBACK);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SQL_UPDATE_FEEDBACK);
             preparedStatement = setFeedbackToPreparedStatement(preparedStatement, feedback);
             preparedStatement.setInt(4, feedback.getId());
             result = preparedStatement.executeUpdate();
@@ -103,7 +103,7 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
     public int delete(int id) {
         int result = 0;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_FEEDBACK_BY_ID);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SQL_DELETE_FEEDBACK_BY_ID);
             preparedStatement.setInt(1, id);
             result = preparedStatement.executeUpdate();
         } catch (SQLException e) {

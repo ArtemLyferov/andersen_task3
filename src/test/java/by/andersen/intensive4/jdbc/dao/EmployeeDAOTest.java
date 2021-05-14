@@ -73,7 +73,7 @@ public class EmployeeDAOTest {
     @Test
     public void getEmployeeByIdTest() {
         Employee expected = lastEmployeeInList;
-        Employee actual = employeeDAO.findEntityById(expected.getId());
+        Employee actual = employeeDAO.findById(expected.getId());
         assertEquals(expected, actual);
     }
 

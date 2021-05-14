@@ -1,7 +1,9 @@
-package by.andesen.intensive4.servlets.project;
+package by.andesen.intensive4.controllers.projectServlets;
 
+import by.andesen.intensive4.entities.Project;
 import by.andesen.intensive4.jdbc.connector.ConnectorDB;
 import by.andesen.intensive4.jdbc.dao.ProjectDAO;
+import by.andesen.intensive4.service.EntityService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -12,12 +14,12 @@ import java.sql.SQLException;
 @WebServlet(name = "GetAllProjectsServlet", value = "/projects")
 public class GetAllProjectsServlet extends HttpServlet {
 
-    private ProjectDAO projectDAO;
+    private EntityService<Project> projectService;
 
     @Override
     public void init() throws ServletException {
         try {
-            projectDAO = new ProjectDAO(ConnectorDB.getConnection());
+            projectService = new EntityService<>(new ProjectDAO(ConnectorDB.getConnection()));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -25,7 +27,7 @@ public class GetAllProjectsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("projects", projectDAO.findAll());
+        request.setAttribute("projects", projectService.findAll());
         request.getRequestDispatcher("/WEB-INF/views/project/indexProjects.jsp").forward(request, response);
     }
 }

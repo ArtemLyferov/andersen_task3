@@ -1,4 +1,4 @@
-package by.andesen.intensive4.servlets;
+package by.andesen.intensive4.controllers;
 
 import javax.servlet.*;
 import javax.servlet.http.*;

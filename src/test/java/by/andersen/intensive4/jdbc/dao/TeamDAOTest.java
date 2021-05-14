@@ -50,7 +50,7 @@ public class TeamDAOTest {
     @Test
     public void getTeamByIdTest() {
         Team expected = lastTeamInList;
-        Team actual = teamDAO.findEntityById(expected.getId());
+        Team actual = teamDAO.findById(expected.getId());
         assertEquals(expected, actual);
     }
 

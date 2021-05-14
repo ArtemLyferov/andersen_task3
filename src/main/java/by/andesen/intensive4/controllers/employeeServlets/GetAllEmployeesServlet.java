@@ -1,7 +1,9 @@
-package by.andesen.intensive4.servlets.employee;
+package by.andesen.intensive4.controllers.employeeServlets;
 
+import by.andesen.intensive4.entities.Employee;
 import by.andesen.intensive4.jdbc.connector.ConnectorDB;
 import by.andesen.intensive4.jdbc.dao.EmployeeDAO;
+import by.andesen.intensive4.service.EntityService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -12,12 +14,12 @@ import java.sql.SQLException;
 @WebServlet(name = "GetAllEmployeesServlet", value = "/employees")
 public class GetAllEmployeesServlet extends HttpServlet {
 
-    private EmployeeDAO employeeDAO;
+    private EntityService<Employee> employeeService;
 
     @Override
     public void init() throws ServletException {
         try {
-            employeeDAO = new EmployeeDAO(ConnectorDB.getConnection());
+            employeeService = new EntityService<>(new EmployeeDAO(ConnectorDB.getConnection()));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -25,7 +27,7 @@ public class GetAllEmployeesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("employees", employeeDAO.findAll());
+        request.setAttribute("employees", employeeService.findAll());
         request.getRequestDispatcher("/WEB-INF/views/employee/indexEmployees.jsp").forward(request, response);
     }
 }

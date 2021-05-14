@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectDAO extends AbstractDAO<Project> {
+public class ProjectDAO extends EntityDAO<Project> {
 
     public static final String SQL_INSERT_PROJECT = "INSERT INTO projects (name_project, customer, duration, methodology, " +
             "project_manager_id, team_id) " +
@@ -44,7 +44,7 @@ public class ProjectDAO extends AbstractDAO<Project> {
     public int create(Project project) {
         int result = 0;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT_PROJECT);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SQL_INSERT_PROJECT);
             result = setProjectToPreparedStatement(preparedStatement, project).executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -67,7 +67,7 @@ public class ProjectDAO extends AbstractDAO<Project> {
     public List<Project> findAll() {
         List<Project> projects = null;
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_PROJECTS);
             projects = new ArrayList<>();
             while (resultSet.next()) {
@@ -80,10 +80,10 @@ public class ProjectDAO extends AbstractDAO<Project> {
     }
 
     @Override
-    public Project findEntityById(int id) {
+    public Project findById(int id) {
         Project project = null;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_PROJECT_BY_ID);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SQL_SELECT_PROJECT_BY_ID);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -99,7 +99,7 @@ public class ProjectDAO extends AbstractDAO<Project> {
     public int update(Project project) {
         int result = 0;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_PROJECT);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SQL_UPDATE_PROJECT);
             preparedStatement = setProjectToPreparedStatement(preparedStatement, project);
             preparedStatement.setInt(7, project.getId());
             result = preparedStatement.executeUpdate();
@@ -113,7 +113,7 @@ public class ProjectDAO extends AbstractDAO<Project> {
     public int delete(int id) {
         int result = 0;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_PROJECT_BY_ID);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SQL_DELETE_PROJECT_BY_ID);
             preparedStatement.setInt(1, id);
             result = preparedStatement.executeUpdate();
         } catch (SQLException e) {

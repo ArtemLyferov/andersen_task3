@@ -1,8 +1,9 @@
-package by.andesen.intensive4.servlets.team;
+package by.andesen.intensive4.controllers.teamServlets;
 
 import by.andesen.intensive4.entities.Team;
 import by.andesen.intensive4.jdbc.connector.ConnectorDB;
 import by.andesen.intensive4.jdbc.dao.TeamDAO;
+import by.andesen.intensive4.service.EntityService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -13,12 +14,12 @@ import java.sql.SQLException;
 @WebServlet(name = "AddTeamServlet", value = "/teams/new")
 public class AddTeamServlet extends HttpServlet {
 
-    private TeamDAO teamDAO;
+    private EntityService<Team> teamService;
 
     @Override
     public void init() throws ServletException {
         try {
-            teamDAO = new TeamDAO(ConnectorDB.getConnection());
+            teamService = new EntityService<>(new TeamDAO(ConnectorDB.getConnection()));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -34,7 +35,7 @@ public class AddTeamServlet extends HttpServlet {
         String teamName = request.getParameter("teamName");
         if (teamName != null && !teamName.isEmpty()) {
             Team team = new Team(teamName);
-            teamDAO.create(team);
+            teamService.create(team);
         }
         response.sendRedirect(request.getContextPath() + "/teams");
     }

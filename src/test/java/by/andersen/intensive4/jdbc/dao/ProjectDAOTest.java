@@ -86,7 +86,7 @@ public class ProjectDAOTest {
     @Test
     public void getProjectByIdTest() {
         Project expected = lastProjectInList;
-        Project actual = projectDAO.findEntityById(expected.getId());
+        Project actual = projectDAO.findById(expected.getId());
         assertEquals(expected, actual);
     }
 

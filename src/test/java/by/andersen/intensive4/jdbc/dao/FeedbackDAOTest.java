@@ -85,7 +85,7 @@ public class FeedbackDAOTest {
     @Test
     public void getFeedbackByIdTest() {
         Feedback expected = lastFeedbackInList;
-        Feedback actual = feedbackDAO.findEntityById(expected.getId());
+        Feedback actual = feedbackDAO.findById(expected.getId());
         assertEquals(expected, actual);
     }
 

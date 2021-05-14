@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmployeeDAO extends AbstractDAO<Employee> {
+public class EmployeeDAO extends EntityDAO<Employee> {
 
     public static final String SQL_INSERT_EMPLOYEE = "INSERT INTO employees (surname, name, patronymic, dob, email, " +
             "skype, phone_number, employment_date, experience, developer_level, english_level, team_id) " +
@@ -49,7 +49,7 @@ public class EmployeeDAO extends AbstractDAO<Employee> {
     public int create(Employee employee) {
         int result = 0;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT_EMPLOYEE);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SQL_INSERT_EMPLOYEE);
             result = setEmployeeToPreparedStatement(preparedStatement, employee).executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -78,7 +78,7 @@ public class EmployeeDAO extends AbstractDAO<Employee> {
     public List<Employee> findAll() {
         List<Employee> employees = null;
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_EMPLOYEES);
             employees = new ArrayList<>();
             while (resultSet.next()) {
@@ -91,10 +91,10 @@ public class EmployeeDAO extends AbstractDAO<Employee> {
     }
 
     @Override
-    public Employee findEntityById(int id) {
+    public Employee findById(int id) {
         Employee employee = null;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_EMPLOYEE_BY_ID);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SQL_SELECT_EMPLOYEE_BY_ID);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -110,7 +110,7 @@ public class EmployeeDAO extends AbstractDAO<Employee> {
     public int update(Employee employee) {
         int result = 0;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_EMPLOYEE);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SQL_UPDATE_EMPLOYEE);
             preparedStatement = setEmployeeToPreparedStatement(preparedStatement, employee);
             preparedStatement.setInt(13, employee.getId());
             result = preparedStatement.executeUpdate();
@@ -124,7 +124,7 @@ public class EmployeeDAO extends AbstractDAO<Employee> {
     public int delete(int id) {
         int result = 0;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_EMPLOYEE_BY_ID);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SQL_DELETE_EMPLOYEE_BY_ID);
             preparedStatement.setInt(1, id);
             result = preparedStatement.executeUpdate();
         } catch (SQLException e) {

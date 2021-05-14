@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeamDAO extends AbstractDAO<Team> {
+public class TeamDAO extends EntityDAO<Team> {
     public static final String SQL_INSERT_TEAM = "INSERT INTO teams (team_name) VALUES (?)";
     public static final String SQL_SELECT_ALL_TEAMS = "SELECT * FROM teams";
     public static final String SQL_SELECT_TEAM_BY_ID = SQL_SELECT_ALL_TEAMS + " WHERE id = ?";
@@ -22,7 +22,7 @@ public class TeamDAO extends AbstractDAO<Team> {
     public int create(Team team) {
         int result = 0;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT_TEAM);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SQL_INSERT_TEAM);
             preparedStatement.setString(1, team.getTeamName());
             result = preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -41,7 +41,7 @@ public class TeamDAO extends AbstractDAO<Team> {
     public List<Team> findAll() {
         List<Team> teams = null;
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_TEAMS);
             teams = new ArrayList<>();
             while (resultSet.next()) {
@@ -54,10 +54,10 @@ public class TeamDAO extends AbstractDAO<Team> {
     }
 
     @Override
-    public Team findEntityById(int id) {
+    public Team findById(int id) {
         Team team = null;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_TEAM_BY_ID);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SQL_SELECT_TEAM_BY_ID);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -73,7 +73,7 @@ public class TeamDAO extends AbstractDAO<Team> {
     public int update(Team team) {
         int result = 0;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_TEAM);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SQL_UPDATE_TEAM);
             preparedStatement.setString(1, team.getTeamName());
             preparedStatement.setInt(2, team.getId());
             result = preparedStatement.executeUpdate();
@@ -87,7 +87,7 @@ public class TeamDAO extends AbstractDAO<Team> {
     public int delete(int id) {
         int result = 0;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_TEAM_BY_ID);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(SQL_DELETE_TEAM_BY_ID);
             preparedStatement.setInt(1, id);
             result = preparedStatement.executeUpdate();
         } catch (SQLException e) {

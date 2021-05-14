@@ -1,32 +1,33 @@
-package by.andesen.intensive4.servlets.project;
+package by.andesen.intensive4.controllers.projectServlets;
 
-import by.andesen.intensive4.entities.Feedback;
+import by.andesen.intensive4.entities.Employee;
 import by.andesen.intensive4.entities.Project;
+import by.andesen.intensive4.entities.Team;
 import by.andesen.intensive4.jdbc.connector.ConnectorDB;
 import by.andesen.intensive4.jdbc.dao.EmployeeDAO;
 import by.andesen.intensive4.jdbc.dao.ProjectDAO;
 import by.andesen.intensive4.jdbc.dao.TeamDAO;
+import by.andesen.intensive4.service.EntityService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 @WebServlet(name = "UpdateProjectServlet", value = "/projects/edit")
 public class UpdateProjectServlet extends HttpServlet {
 
-    private ProjectDAO projectDAO;
-    private EmployeeDAO employeeDAO;
-    private TeamDAO teamDAO;
+    private EntityService<Project> projectService;
+    private EntityService<Employee> employeeService;
+    private EntityService<Team> teamService;
 
     @Override
     public void init() throws ServletException {
         try {
-            projectDAO = new ProjectDAO(ConnectorDB.getConnection());
-            employeeDAO = new EmployeeDAO(ConnectorDB.getConnection());
-            teamDAO = new TeamDAO(ConnectorDB.getConnection());
+            projectService = new EntityService<>(new ProjectDAO(ConnectorDB.getConnection()));
+            employeeService = new EntityService<>(new EmployeeDAO(ConnectorDB.getConnection()));
+            teamService = new EntityService<>(new TeamDAO(ConnectorDB.getConnection()));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -34,9 +35,9 @@ public class UpdateProjectServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("project", projectDAO.findEntityById(Integer.parseInt(request.getParameter("id"))));
-        request.setAttribute("employees", employeeDAO.findAll());
-        request.setAttribute("teams", teamDAO.findAll());
+        request.setAttribute("project", projectService.findById(Integer.parseInt(request.getParameter("id"))));
+        request.setAttribute("employees", employeeService.findAll());
+        request.setAttribute("teams", teamService.findAll());
         request.getRequestDispatcher("/WEB-INF/views/project/editProject.jsp").forward(request, response);
     }
 
@@ -48,9 +49,9 @@ public class UpdateProjectServlet extends HttpServlet {
         project.setCustomer(request.getParameter("customer"));
         project.setDuration(Integer.parseInt(request.getParameter("duration")));
         project.setMethodology(Project.Methodology.valueOf(request.getParameter("methodology")));
-        project.setProjectManager(employeeDAO.findEntityById(Integer.parseInt(request.getParameter("idEmployee"))));
-        project.setTeam(teamDAO.findEntityById(Integer.parseInt(request.getParameter("idTeam"))));
-        projectDAO.update(project);
+        project.setProjectManager(employeeService.findById(Integer.parseInt(request.getParameter("idEmployee"))));
+        project.setTeam(teamService.findById(Integer.parseInt(request.getParameter("idTeam"))));
+        projectService.update(project);
         response.sendRedirect(request.getContextPath() + "/projects");
     }
 }
