@@ -22,7 +22,12 @@ public class ConnectionPool {
     private static final int MAX_POOL_SIZE = 20;
     private static final int MAX_TIMEOUT = 5;
 
-    public static ConnectionPool create(String url, String user, String password) throws SQLException {
+    public static ConnectionPool create(String driver, String url, String user, String password) throws SQLException {
+        try {
+            Class.forName(driver);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         List<Connection> pool = new ArrayList<>(INITIAL_POOL_SIZE);
         for (int i = 0; i < INITIAL_POOL_SIZE; i++) {
             pool.add(createConnection(url, user, password));
