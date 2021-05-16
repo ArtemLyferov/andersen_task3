@@ -32,4 +32,8 @@ public class ConnectorDB {
     public Connection getConnection() throws SQLException {
         return connectionPool.getConnection();
     }
+
+    public boolean releaseConnection(Connection connection) {
+        return connectionPool.releaseConnection(connection);
+    }
 }

@@ -43,11 +43,15 @@ public class ProjectDAO extends EntityDAO<Project> {
     @Override
     public int create(Project project) {
         int result = 0;
+        Connection connection = null;
         try {
-            PreparedStatement preparedStatement = getConnectorDB().getConnection().prepareStatement(SQL_INSERT_PROJECT);
+            connection = getConnectorDB().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT_PROJECT);
             result = setProjectToPreparedStatement(preparedStatement, project).executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            getConnectorDB().releaseConnection(connection);
         }
         return result;
     }
@@ -66,8 +70,10 @@ public class ProjectDAO extends EntityDAO<Project> {
     @Override
     public List<Project> findAll() {
         List<Project> projects = null;
+        Connection connection = null;
         try {
-            Statement statement = getConnectorDB().getConnection().createStatement();
+            connection = getConnectorDB().getConnection();
+            Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_PROJECTS);
             projects = new ArrayList<>();
             while (resultSet.next()) {
@@ -75,6 +81,8 @@ public class ProjectDAO extends EntityDAO<Project> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            getConnectorDB().releaseConnection(connection);
         }
         return projects;
     }
@@ -82,8 +90,10 @@ public class ProjectDAO extends EntityDAO<Project> {
     @Override
     public Project findById(int id) {
         Project project = null;
+        Connection connection = null;
         try {
-            PreparedStatement preparedStatement = getConnectorDB().getConnection().prepareStatement(SQL_SELECT_PROJECT_BY_ID);
+            connection = getConnectorDB().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_PROJECT_BY_ID);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -91,6 +101,8 @@ public class ProjectDAO extends EntityDAO<Project> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            getConnectorDB().releaseConnection(connection);
         }
         return project;
     }
@@ -98,13 +110,17 @@ public class ProjectDAO extends EntityDAO<Project> {
     @Override
     public int update(Project project) {
         int result = 0;
+        Connection connection = null;
         try {
-            PreparedStatement preparedStatement = getConnectorDB().getConnection().prepareStatement(SQL_UPDATE_PROJECT);
+            connection = getConnectorDB().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_PROJECT);
             preparedStatement = setProjectToPreparedStatement(preparedStatement, project);
             preparedStatement.setInt(7, project.getId());
             result = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            getConnectorDB().releaseConnection(connection);
         }
         return result;
     }
@@ -112,12 +128,16 @@ public class ProjectDAO extends EntityDAO<Project> {
     @Override
     public int delete(int id) {
         int result = 0;
+        Connection connection = null;
         try {
-            PreparedStatement preparedStatement = getConnectorDB().getConnection().prepareStatement(SQL_DELETE_PROJECT_BY_ID);
+            connection = getConnectorDB().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_PROJECT_BY_ID);
             preparedStatement.setInt(1, id);
             result = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            getConnectorDB().releaseConnection(connection);
         }
         return result;
     }

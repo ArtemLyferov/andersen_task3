@@ -21,12 +21,16 @@ public class TeamDAO extends EntityDAO<Team> {
     @Override
     public int create(Team team) {
         int result = 0;
+        Connection connection = null;
         try {
-            PreparedStatement preparedStatement = getConnectorDB().getConnection().prepareStatement(SQL_INSERT_TEAM);
+            connection = getConnectorDB().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT_TEAM);
             preparedStatement.setString(1, team.getTeamName());
             result = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            getConnectorDB().releaseConnection(connection);
         }
         return result;
     }
@@ -40,8 +44,10 @@ public class TeamDAO extends EntityDAO<Team> {
     @Override
     public List<Team> findAll() {
         List<Team> teams = null;
+        Connection connection = null;
         try {
-            Statement statement = getConnectorDB().getConnection().createStatement();
+            connection = getConnectorDB().getConnection();
+            Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_TEAMS);
             teams = new ArrayList<>();
             while (resultSet.next()) {
@@ -49,6 +55,8 @@ public class TeamDAO extends EntityDAO<Team> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            getConnectorDB().releaseConnection(connection);
         }
         return teams;
     }
@@ -56,8 +64,10 @@ public class TeamDAO extends EntityDAO<Team> {
     @Override
     public Team findById(int id) {
         Team team = null;
+        Connection connection = null;
         try {
-            PreparedStatement preparedStatement = getConnectorDB().getConnection().prepareStatement(SQL_SELECT_TEAM_BY_ID);
+            connection = getConnectorDB().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_TEAM_BY_ID);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -65,6 +75,8 @@ public class TeamDAO extends EntityDAO<Team> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            getConnectorDB().releaseConnection(connection);
         }
         return team;
     }
@@ -72,13 +84,17 @@ public class TeamDAO extends EntityDAO<Team> {
     @Override
     public int update(Team team) {
         int result = 0;
+        Connection connection = null;
         try {
-            PreparedStatement preparedStatement = getConnectorDB().getConnection().prepareStatement(SQL_UPDATE_TEAM);
+            connection = getConnectorDB().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_TEAM);
             preparedStatement.setString(1, team.getTeamName());
             preparedStatement.setInt(2, team.getId());
             result = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            getConnectorDB().releaseConnection(connection);
         }
         return result;
     }
@@ -86,12 +102,16 @@ public class TeamDAO extends EntityDAO<Team> {
     @Override
     public int delete(int id) {
         int result = 0;
+        Connection connection = null;
         try {
-            PreparedStatement preparedStatement = getConnectorDB().getConnection().prepareStatement(SQL_DELETE_TEAM_BY_ID);
+            connection = getConnectorDB().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_TEAM_BY_ID);
             preparedStatement.setInt(1, id);
             result = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            getConnectorDB().releaseConnection(connection);
         }
         return result;
     }

@@ -37,11 +37,15 @@ public class FeedbackDAO extends EntityDAO<Feedback> {
     @Override
     public int create(Feedback feedback) {
         int result = 0;
+        Connection connection = null;
         try {
-            PreparedStatement preparedStatement = getConnectorDB().getConnection().prepareStatement(SQL_INSERT_FEEDBACK);
+            connection = getConnectorDB().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT_FEEDBACK);
             result = setFeedbackToPreparedStatement(preparedStatement, feedback).executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            getConnectorDB().releaseConnection(connection);
         }
         return result;
     }
@@ -57,8 +61,10 @@ public class FeedbackDAO extends EntityDAO<Feedback> {
     @Override
     public List<Feedback> findAll() {
         List<Feedback> feedbacks = null;
+        Connection connection = null;
         try {
-            Statement statement = getConnectorDB().getConnection().createStatement();
+            connection = getConnectorDB().getConnection();
+            Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_FEEDBACKS);
             feedbacks = new ArrayList<>();
             while (resultSet.next()) {
@@ -66,6 +72,8 @@ public class FeedbackDAO extends EntityDAO<Feedback> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            getConnectorDB().releaseConnection(connection);
         }
         return feedbacks;
     }
@@ -73,8 +81,10 @@ public class FeedbackDAO extends EntityDAO<Feedback> {
     @Override
     public Feedback findById(int id) {
         Feedback feedback = null;
+        Connection connection = null;
         try {
-            PreparedStatement preparedStatement = getConnectorDB().getConnection().prepareStatement(SQL_SELECT_FEEDBACK_BY_ID);
+            connection = getConnectorDB().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_FEEDBACK_BY_ID);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -82,6 +92,8 @@ public class FeedbackDAO extends EntityDAO<Feedback> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            getConnectorDB().releaseConnection(connection);
         }
         return feedback;
     }
@@ -89,13 +101,17 @@ public class FeedbackDAO extends EntityDAO<Feedback> {
     @Override
     public int update(Feedback feedback) {
         int result = 0;
+        Connection connection = null;
         try {
-            PreparedStatement preparedStatement = getConnectorDB().getConnection().prepareStatement(SQL_UPDATE_FEEDBACK);
+            connection = getConnectorDB().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_FEEDBACK);
             preparedStatement = setFeedbackToPreparedStatement(preparedStatement, feedback);
             preparedStatement.setInt(4, feedback.getId());
             result = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            getConnectorDB().releaseConnection(connection);
         }
         return result;
     }
@@ -103,12 +119,16 @@ public class FeedbackDAO extends EntityDAO<Feedback> {
     @Override
     public int delete(int id) {
         int result = 0;
+        Connection connection = null;
         try {
-            PreparedStatement preparedStatement = getConnectorDB().getConnection().prepareStatement(SQL_DELETE_FEEDBACK_BY_ID);
+            connection = getConnectorDB().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_FEEDBACK_BY_ID);
             preparedStatement.setInt(1, id);
             result = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            getConnectorDB().releaseConnection(connection);
         }
         return result;
     }
