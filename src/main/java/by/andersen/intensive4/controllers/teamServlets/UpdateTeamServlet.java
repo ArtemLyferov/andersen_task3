@@ -20,7 +20,7 @@ public class UpdateTeamServlet extends HttpServlet {
     public void init() throws ServletException {
         try {
             ConnectorDB connectorDB = ConnectorDB.getInstance();
-            teamService = new EntityService<>(new TeamDAO(connectorDB.getConnection()));
+            teamService = new EntityService<>(new TeamDAO(connectorDB));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

@@ -20,7 +20,7 @@ public class GetAllProjectsServlet extends HttpServlet {
     public void init() throws ServletException {
         try {
             ConnectorDB connectorDB = ConnectorDB.getInstance();
-            projectService = new EntityService<>(new ProjectDAO(connectorDB.getConnection()));
+            projectService = new EntityService<>(new ProjectDAO(connectorDB));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

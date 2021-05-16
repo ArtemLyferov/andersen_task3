@@ -26,9 +26,9 @@ public class UpdateProjectServlet extends HttpServlet {
     public void init() throws ServletException {
         try {
             ConnectorDB connectorDB = ConnectorDB.getInstance();
-            projectService = new EntityService<>(new ProjectDAO(connectorDB.getConnection()));
-            employeeService = new EntityService<>(new EmployeeDAO(connectorDB.getConnection()));
-            teamService = new EntityService<>(new TeamDAO(connectorDB.getConnection()));
+            projectService = new EntityService<>(new ProjectDAO(connectorDB));
+            employeeService = new EntityService<>(new EmployeeDAO(connectorDB));
+            teamService = new EntityService<>(new TeamDAO(connectorDB));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

@@ -1,18 +1,16 @@
 package by.andersen.intensive4.jdbc.dao;
 
-
 import by.andersen.intensive4.entities.Entity;
+import by.andersen.intensive4.jdbc.connector.ConnectorDB;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.sql.Connection;
 import java.util.List;
 
 @AllArgsConstructor
 public abstract class EntityDAO<T extends Entity> {
-
     @Getter
-    private Connection connection;
+    private ConnectorDB connectorDB;
 
     public abstract int create(T entity);
 

@@ -20,7 +20,7 @@ public class GetFeedbackServlet extends HttpServlet {
     public void init() throws ServletException {
         try {
             ConnectorDB connectorDB = ConnectorDB.getInstance();
-            feedbackService = new EntityService<>(new FeedbackDAO(connectorDB.getConnection()));
+            feedbackService = new EntityService<>(new FeedbackDAO(connectorDB));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

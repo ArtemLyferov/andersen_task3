@@ -1,9 +1,9 @@
 package by.andersen.intensive4.controllers.projectServlets;
 
 import by.andersen.intensive4.entities.Project;
-import by.andersen.intensive4.service.EntityService;
 import by.andersen.intensive4.jdbc.connector.ConnectorDB;
 import by.andersen.intensive4.jdbc.dao.ProjectDAO;
+import by.andersen.intensive4.service.EntityService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -20,7 +20,7 @@ public class DeleteProjectServlet extends HttpServlet {
     public void init() throws ServletException {
         try {
             ConnectorDB connectorDB = ConnectorDB.getInstance();
-            projectService = new EntityService<>(new ProjectDAO(connectorDB.getConnection()));
+            projectService = new EntityService<>(new ProjectDAO(connectorDB));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

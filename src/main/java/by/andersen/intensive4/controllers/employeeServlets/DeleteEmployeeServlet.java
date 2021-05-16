@@ -20,7 +20,7 @@ public class DeleteEmployeeServlet extends HttpServlet {
     public void init() throws ServletException {
         try {
             ConnectorDB connectorDB = ConnectorDB.getInstance();
-            employeeService = new EntityService<>(new EmployeeDAO(connectorDB.getConnection()));
+            employeeService = new EntityService<>(new EmployeeDAO(connectorDB));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
